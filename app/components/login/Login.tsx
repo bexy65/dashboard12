@@ -64,7 +64,7 @@ function LoginInputs() {
       <div className="flex justify-center items-center mt-3">
         <Link
           href={"/register"}
-          className="w-full p-3 text-center bg-white border rounded-xl hover:scale-105 duration-300 border-blue-400"
+          className="w-full p-3 text-center bg-white border rounded-xl  hover:border-blue-700"
         >
           Register
         </Link>
