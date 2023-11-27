@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useState } from "react";
+import Link from "next/link";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -25,7 +26,16 @@ const Register = () => {
 
   return (
     <>
-      <h2 className="text-2xl font-bold text-[#002D74] mb-3">Register</h2>
+      <div className="flex flex-row justify-between mb-4">
+        <h2 className="text-2xl font-bold text-[#002D74] mb-3">Register</h2>
+        <Link
+          href={"/login"}
+          type="button"
+          className="flex items-center justify-center w-1/4 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-blue-700 dark:bg-blue-500 hover:bg-gray-100 dark:text-gray-200 "
+        >
+          <span>Go back</span>
+        </Link>
+      </div>
       <form onSubmit={handleSubmit}>
         <div>
           <label className="block text-gray-700">Name</label>
@@ -98,8 +108,8 @@ const Register = () => {
           />
         </div>
 
-        <div className="flex justify-center items-center mt-3">
-          <button className="w-full p-3 bg-white border rounded-xl hover:scale-105 duration-300 border-blue-400">
+        <div className="flex justify-center items-center mt-4">
+          <button className="w-full p-3 bg-white border rounded-xl hover:border-blue-700">
             Register
           </button>
         </div>
