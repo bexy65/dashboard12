@@ -3,13 +3,32 @@ import React from 'react';
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const router = useRouter();
-  const succesAtRegister = () => toast('User successfuly created!');
+  const succesAtRegister = () =>
+    toast.success('User successfuly created!', {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
   const failEmailExistAtRegister = () =>
-    toast('Email already exist, please choose another one!');
+    toast.error('Email already exist, please choose another one!', {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
 
   const [passwordError, setPasswordError] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -48,13 +67,12 @@ const Register = () => {
       } else {
         const data = await response.json();
         if (data.massage) {
-          setEmailError(data.massage);
-          //Toast implementation
+          setEmailError(`User exist with this Email adress!`);
           failEmailExistAtRegister();
+        } else {
+          succesAtRegister();
+          console.log('User registered successfully');
         }
-        //Toast implementation
-        succesAtRegister();
-        console.log('User registered successfully');
       }
     } catch (error) {
       console.error('Error during registration:', error);
