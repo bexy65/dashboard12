@@ -2,13 +2,33 @@
 import React from "react";
 import { useState } from "react";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 function LoginInputs() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     console.log(`${password} - ${email}`);
+    try {
+      const result: any = await signIn("credentials", {
+        redirect: true, // set to true if you want to redirect after the login
+        email,
+        password,
+      });
+
+      if (result.error) {
+        console.error("Error logging in:", result.error);
+      } else {
+        console.log("Logged in successfully:", result);
+        router.push("/dashboard");
+        // You can perform additional actions after a successful login
+      }
+    } catch (error: any) {
+      console.error("Error logging in:", error.message);
+    }
   };
 
   return (
