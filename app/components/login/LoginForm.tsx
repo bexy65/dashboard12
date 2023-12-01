@@ -2,32 +2,36 @@
 import React from 'react';
 import { useState } from 'react';
 import Link from 'next/link';
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/app/authProvider';
 
 function LoginInputs() {
+  const { isLogged, login, logout } = useAuth();
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
     console.log(`${password} - ${email}`);
-    try {
-      const result: any = await signIn('credentials', {
-        redirect: true, // set to true if you want to redirect after the login
-        email,
-        password,
-      });
 
-      if (result.error) {
-        console.error('Error logging in:', result.error);
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      if (data.success === true) {
+        login();
       } else {
-        console.log('Logged in successfully:', result);
-        router.push('/dashboard');
-        // You can perform additional actions after a successful login
+        router.push('/login');
       }
-    } catch (error: any) {
-      console.error('Error logging in:', error.message);
+    } else {
+      // Login failed
+      console.error('Login failed:', response.status);
     }
   };
 
@@ -36,7 +40,7 @@ function LoginInputs() {
       <h2 className='text-2xl font-bold text-[#002D74]'>Login</h2>
       {/* form method post */}
 
-      <form className='mt-6' action='#' method='POST'>
+      <form className='mt-6'>
         <div>
           <label className='block text-gray-700'>Email Address</label>
           <input

@@ -65,13 +65,12 @@ const Register = () => {
         const { error } = await response.json();
         console.error('Error during registration:', error);
       } else {
-        const data = await response.json();
-        if (data.massage) {
-          setEmailError(`User exist with this Email adress!`);
+        const data: any = await response.json();
+        if (data.message) {
           failEmailExistAtRegister();
         } else {
+          router.push('/dashboard');
           succesAtRegister();
-          console.log('User registered successfully');
         }
       }
     } catch (error) {

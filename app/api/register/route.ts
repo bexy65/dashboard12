@@ -4,29 +4,35 @@ import prisma from '@/libs/prismadb';
 
 export async function POST(req: Request, res: Response) {
   const body = await req.json();
-
   const { email, name, password, lastName } = body;
 
+  //Password hashing
   const hashedPassword = await hash(password, 5);
 
-  const userExists = await prisma.users.findFirst({
-    where: {
-      email: email,
-    },
-  });
+  const checkUser = async function () {
+    const userExists = await prisma.users.findFirst({
+      where: {
+        email: email,
+      },
+    });
+    return userExists;
+  };
 
-  if (userExists) {
-    return NextResponse.json({ massage: 'User exists' });
-  }
+  const createUser = async function () {
+    if (await checkUser()) {
+      return { message: 'User exists' };
+    } else {
+      const user = await prisma.users.create({
+        data: {
+          name,
+          last_name: lastName,
+          email,
+          password: hashedPassword,
+        },
+      });
+      return user;
+    }
+  };
 
-  const user = await prisma.users.create({
-    data: {
-      name,
-      last_name: lastName,
-      email,
-      password: hashedPassword,
-    },
-  });
-
-  return NextResponse.json(user);
+  return NextResponse.json(await createUser());
 }
