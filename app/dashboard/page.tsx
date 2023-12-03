@@ -5,7 +5,7 @@ import DashboardMain from '../components/dashboard/main';
 export default withPageAuthRequired(
     function DashboardPage() {
         return (
-            <div className='flex-none w-full'>
+            <div className='flex-none h-screen w-full'>
                 <DashboardMain />
             </div>
         );

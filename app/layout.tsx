@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import Navbar from './components/navbar/page';
+import Footer from './components/footer/footer';
 
 export const metadata: Metadata = {
     title: 'Create Next App',
@@ -19,6 +20,7 @@ export default function RootLayout({
                 <body className='flex flex-col min-h-screen items-center'>
                     <Navbar />
                     {children}
+                    <Footer />
                 </body>
             </html>
         </UserProvider>
