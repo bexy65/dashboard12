@@ -8,12 +8,12 @@ function DashboardMain() {
     if (!user) return;
 
     return (
-        <div className='grid grid-cols-4 h-screen'>
+        <div className='grid grid-cols-5 h-screen'>
             <div className='hidden border-2 border-gray-500 bg-gray-200 md:block md:col-span-1 lg:block lg:col-span-1'>
                 <Sidebar />
             </div>
 
-            <div className='col-span-4 md:col-span-3 lg:col-span-3 bg-gray-300 p-4'>
+            <div className='col-span-5 md:col-span-4 lg:col-span-4 bg-gray-300 p-4'>
                 <div>
                     {error ? (
                         <h2>{error.message}</h2>
